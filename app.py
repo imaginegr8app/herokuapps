@@ -20,7 +20,7 @@ def sendFCM():
         },
         "to": "f1-Rngb8S1g:APA91bFc1TB2GhK3K90TAVXk03m3o3sU7X1G86w3bcrEnk9NuvkPjAzUy52zds8D1iAZqxnvyDVl6A3zlLdVoVkPh4UfaHjf4-YWHpCv08zV2PJaTid_BH-6Nor_eAJ8TkDgIfKm0ciG"
     }
-    headers = {"Content-Type":"application/json", "Authorization":"server-key"}
+    headers = {"Content-Type":"application/json", "Authorization":"b4fcb4d466c24e9690623613fd549440"}
     r = requests.post(url, data=json.dumps(body), headers=headers)
     print("sendFCM result:")
     print(r)
