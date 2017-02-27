@@ -11,9 +11,24 @@ from flask import make_response
 # Flask app should start in global layout
 app = Flask(__name__)
 
+def sendFCM():
+    url = 'https://fcm.googleapis.com/fcm/send'
+    body = {
+        "data":{
+            "title":"mytitle",
+            "body":"mybody"
+        },
+        "to": "device_token"
+    }
+    headers = {"Content-Type":"application/json", "Authorization":"key=f1-Rngb8S1g:APA91bFc1TB2GhK3K90TAVXk03m3o3sU7X1G86w3bcrEnk9NuvkPjAzUy52zds8D1iAZqxnvyDVl6A3zlLdVoVkPh4UfaHjf4-YWHpCv08zV2PJaTid_BH-6Nor_eAJ8TkDgIfKm0ciG"}
+    r = requests.post(url, data=json.dumps(body), headers=headers)
+    print("sendFCM result:")
+    print(r)
+    return r
 
 @app.route('/webhook', methods=['POST'])
 def webhook():
+    sendFCM()
     req = request.get_json(silent=True, force=True)
 
     print("Request:")
