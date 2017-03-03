@@ -18,9 +18,9 @@ def sendFCM():
             "title":"mytitle",
             "body":"mybody"
         },
-        "to": "f1-Rngb8S1g:APA91bFc1TB2GhK3K90TAVXk03m3o3sU7X1G86w3bcrEnk9NuvkPjAzUy52zds8D1iAZqxnvyDVl6A3zlLdVoVkPh4UfaHjf4-YWHpCv08zV2PJaTid_BH-6Nor_eAJ8TkDgIfKm0ciG"
+        "to": "efes7pJltPE:APA91bEztbMyGUmu_KlvrTXkI3zBGql7UVm1MmKtyaFVDwzPD8GC3VUELFxJva31b1824EcUvdwijPSw_wwMXRdkkoeHJW8RyvDojIN7JPktuirUQtumffxAoHTz1-qSqYXPCWpKKrT5"
     }
-    headers = {"Content-Type":"application/json", "Authorization":"b4fcb4d466c24e9690623613fd549440"}
+    headers = {"Content-Type":"application/json", "Authorization":"key=AAAA2PBQuWc:APA91bGzMKACFHqoiXpAzO88WmwZWqQcZz5N43Zfmzb-DV0nKKzYvCMdDHc1qmTb7yucMBnq5P9_-L9z2_MwtLC63kMY-AEaiXh-TaUWKYBmbKsO0dXAqj26eCnu0JGbSrOEXC0J1Nd9"}
     r = requests.post(url, data=json.dumps(body), headers=headers)
     print("sendFCM result:")
     print(r)
@@ -34,8 +34,15 @@ def webhook():
     print("Request:")
     print(json.dumps(req, indent=4))
 
-    res = processRequest(req)
-
+    #res = processRequest(req)
+	speech = "This is the first weather app response for seoul"
+	res = {
+        "speech": speech,
+        "displayText": speech,
+        # "data": data,
+        # "contextOut": [],
+        "source": "mytestweatherapp"
+    }
     res = json.dumps(res, indent=4)
     # print(res)
     r = make_response(res)
@@ -97,9 +104,9 @@ def makeWebhookResult(data):
 
     # print(json.dumps(item, indent=4))
 
-    speech = "Today in " + location.get('city') + ": " + condition.get('text') + \
-             ", the temperature is " + condition.get('temp') + " " + units.get('temperature')
-
+    #speech = "Today in " + location.get('city') + ": " + condition.get('text') + \
+    #         ", the temperature is " + condition.get('temp') + " " + units.get('temperature')
+	cccc
     print("Response:")
     print(speech)
 
@@ -142,9 +149,9 @@ def makeWebhookResult(data):
     return {
         "speech": speech,
         "displayText": speech,
-        "data": {"slack": slack_message},
+        #"data": {"slack": slack_message},
         # "contextOut": [],
-        "source": "apiai-weather-webhook-sample"
+        "source": "mytestweatherapp"
     }
 
 
