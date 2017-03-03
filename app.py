@@ -1,8 +1,12 @@
 #!/usr/bin/env python
 
-import urllib
+from __future__ import print_function
+from future import standard_library
+standard_library.install_aliases()
+import urllib.request, urllib.parse, urllib.error
 import json
 import os
+import requests
 
 from flask import Flask
 from flask import request
@@ -22,7 +26,6 @@ def sendFCM():
     }
     headers = {"Content-Type":"application/json", "Authorization":"key=AAAA2PBQuWc:APA91bGzMKACFHqoiXpAzO88WmwZWqQcZz5N43Zfmzb-DV0nKKzYvCMdDHc1qmTb7yucMBnq5P9_-L9z2_MwtLC63kMY-AEaiXh-TaUWKYBmbKsO0dXAqj26eCnu0JGbSrOEXC0J1Nd9"}
     r = requests.post(url, data=json.dumps(body), headers=headers)
-    print("sendFCM result:")
     print(r)
     return r
 
@@ -34,15 +37,8 @@ def webhook():
     print("Request:")
     print(json.dumps(req, indent=4))
 
-    #res = processRequest(req)
-	speech = "This is the first weather app response for seoul"
-	res = {
-        "speech": speech,
-        "displayText": speech,
-        # "data": data,
-        # "contextOut": [],
-        "source": "mytestweatherapp"
-    }
+    res = processRequest(req)
+
     res = json.dumps(res, indent=4)
     # print(res)
     r = make_response(res)
@@ -57,13 +53,8 @@ def processRequest(req):
     yql_query = makeYqlQuery(req)
     if yql_query is None:
         return {}
-    yql_url = baseurl + urllib.urlencode({'q': yql_query}) + "&format=json"
-    print(yql_url)
-
-    result = urllib.urlopen(yql_url).read()
-    print("yql result: ")
-    print(result)
-
+    yql_url = baseurl + urllib.parse.urlencode({'q': yql_query}) + "&format=json"
+    result = urllib.request.urlopen(yql_url).read()
     data = json.loads(result)
     res = makeWebhookResult(data)
     return res
@@ -106,49 +97,14 @@ def makeWebhookResult(data):
 
     speech = "Today in " + location.get('city') + ": " + condition.get('text') + \
              ", the temperature is " + condition.get('temp') + " " + units.get('temperature')
+
     print("Response:")
     print(speech)
-
-    slack_message = {
-        "text": speech,
-        "attachments": [
-            {
-                "title": channel.get('title'),
-                "title_link": channel.get('link'),
-                "color": "#36a64f",
-
-                "fields": [
-                    {
-                        "title": "Condition",
-                        "value": "Temp " + condition.get('temp') +
-                                 " " + units.get('temperature'),
-                        "short": "false"
-                    },
-                    {
-                        "title": "Wind",
-                        "value": "Speed: " + channel.get('wind').get('speed') +
-                                 ", direction: " + channel.get('wind').get('direction'),
-                        "short": "true"
-                    },
-                    {
-                        "title": "Atmosphere",
-                        "value": "Humidity " + channel.get('atmosphere').get('humidity') +
-                                 " pressure " + channel.get('atmosphere').get('pressure'),
-                        "short": "true"
-                    }
-                ],
-
-                "thumb_url": "http://l.yimg.com/a/i/us/we/52/" + condition.get('code') + ".gif"
-            }
-        ]
-    }
-
-    print(json.dumps(slack_message))
 
     return {
         "speech": speech,
         "displayText": speech,
-        #"data": {"slack": slack_message},
+        # "data": data,
         # "contextOut": [],
         "source": "mytestweatherapp"
     }
@@ -157,6 +113,6 @@ def makeWebhookResult(data):
 if __name__ == '__main__':
     port = int(os.getenv('PORT', 5000))
 
-    print "Starting app on port %d" % port
+    print("Starting app on port %d" % port)
 
     app.run(debug=False, port=port, host='0.0.0.0')
