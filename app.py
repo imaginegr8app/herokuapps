@@ -22,7 +22,7 @@ def sendFCM():
             "title":"mytitle",
             "body":"mybody"
         },
-        "to": "efes7pJltPE:APA91bEztbMyGUmu_KlvrTXkI3zBGql7UVm1MmKtyaFVDwzPD8GC3VUELFxJva31b1824EcUvdwijPSw_wwMXRdkkoeHJW8RyvDojIN7JPktuirUQtumffxAoHTz1-qSqYXPCWpKKrT5"
+        "to": "cOEmK7a9Rsc:APA91bHfFLerwbWqKcffsylw3EibjrIUWrx01ZkPBFMioG3NJnBihklWzUD1u8u71k8OEKsn9Wsuy_AMOMux3AE53ZGrAUy9M-R0ADTYOJ-8mjxeL5QMxWZUuhOpzW701YwzNfQxPu9y"
     }
     headers = {"Content-Type":"application/json", "Authorization":"key=AAAA2PBQuWc:APA91bGzMKACFHqoiXpAzO88WmwZWqQcZz5N43Zfmzb-DV0nKKzYvCMdDHc1qmTb7yucMBnq5P9_-L9z2_MwtLC63kMY-AEaiXh-TaUWKYBmbKsO0dXAqj26eCnu0JGbSrOEXC0J1Nd9"}
     r = requests.post(url, data=json.dumps(body), headers=headers)
